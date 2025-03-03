@@ -66,20 +66,33 @@ public class EmpService {
 			System.out.println("Enter the new id");
 			int newid = sc.nextInt();
 			
-			String sql = "update emp set id = ? where id = ?";
+			String idupdatesql = "update emp set id = ? where id = ?";
 			try {
-				PreparedStatement pstm = con.prepareStatement(sql);
+				PreparedStatement pstm = con.prepareStatement(idupdatesql);
 				pstm.setInt(1, newid);
 				pstm.setInt(2, previd);
 				
 				update =  pstm.executeUpdate();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
 		case 2:
-			System.out.println("Enter the ");
+			System.out.println("Enter the id of the employee you want to change the name");
+			int id = sc.nextInt();
+			System.out.println("Enter the new name");
+			String name = sc.next();
+			String nameupdatesql = "update emp set name = ? where id = ?";
+			try {
+				PreparedStatement pstm = con.prepareStatement(nameupdatesql);
+				pstm.setString(1, name);
+				pstm.setInt(2, id);
+				update = pstm.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		}
 		return update;
 	}
