@@ -32,16 +32,45 @@ public class EmpDriver {
 					System.out.println("Data Not Saved");
 				}
 			break;
+			
 		case 2:
-			int update = e1.update();
-			if(update != 0) {
-				System.out.println("Data Updated");
-			}
-			else {
-				System.out.println("Data not updated");
-			}
+				int update = e1.update();
+				if(update != 0) {
+					System.out.println("Data Updated");
+				}
+				else {
+					System.out.println("Data not updated");
+				}
+			
+		case 3:
+				int delete = e1.delete();
+				if(delete != 0) {
+					System.out.println("Data Deleted.");
+				}
+				else {
+					System.out.println("Data Not Deleted.");
+				}
+				break;
+				
+		case 4:
+				int fetch = e1.fetch();
+				if(fetch != 0) {
+					System.out.println("Data Fetched.");
+				}
+				else {
+					System.out.println("Data Not Fetched.");
+				}
+		case 5:
+				int close = e1.close();
+				if(close != 0) {
+					System.out.println("Connection Closed.");
+				}
+				else {
+					System.out.println("Connection not closed.");
+				}
 		default:
 			break;
+		
 		}
 	}
 }

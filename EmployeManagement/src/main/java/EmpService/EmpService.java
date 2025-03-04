@@ -3,9 +3,10 @@ package EmpService;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
-
 public class EmpService {
 	private static Scanner sc = new Scanner(System.in);
 	private static String url = "jdbc:postgresql://localhost:5432/EmployeeManagement?user=postgres&password=123";
@@ -77,23 +78,105 @@ public class EmpService {
 				e.printStackTrace();
 			}
 			break;
+			
 		case 2:
-			System.out.println("Enter the id of the employee you want to change the name");
-			int id = sc.nextInt();
+			System.out.println("Enter the id of the employee you want to update the name:");
+			int idForName = sc.nextInt();
 			System.out.println("Enter the new name");
 			String name = sc.next();
 			String nameupdatesql = "update emp set name = ? where id = ?";
 			try {
 				PreparedStatement pstm = con.prepareStatement(nameupdatesql);
 				pstm.setString(1, name);
-				pstm.setInt(2, id);
+				pstm.setInt(2, idForName);
 				update = pstm.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
+			
+		case 3:
+			System.out.println("Enter the id of the employee you want to update the age:");
+			int idForAge = sc.nextInt();
+			System.out.println("Enter the new age:");
+			int newage = sc.nextInt();
+			String ageupdatesql = "update emp set age = ? where id = ?";
+			try {
+				PreparedStatement pstm = con.prepareStatement(ageupdatesql);
+				pstm.setInt(1, newage);
+				pstm.setInt(2, idForAge);
+				update = pstm.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
+		case 4:
+			System.out.println("Enter the id of the employee you want to update the salary:");
+			int idForSal = sc.nextInt();
+			System.out.println("Enter the new salary:");
+			int newSalary = sc.nextInt();
+			String salaryupdatesql = "update emp set salary = ? where id = ?";
+			try {
+				PreparedStatement pstm = con.prepareStatement(salaryupdatesql);
+				pstm.setInt(1, newSalary);
+				pstm.setInt(2, idForSal);
+				update = pstm.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			break;
 		}
 		return update;
+	}
+	
+	public int delete() {
+		int delete = 0;
+		System.out.println("Enter the employee id you want to delete:");
+		int iddelete = sc.nextInt();
+		String deletesql = "delete from emp where id = ?";
+		try {
+			PreparedStatement pstm = con.prepareStatement(deletesql);
+			pstm.setInt(1, iddelete);
+			delete = pstm.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return delete;
+	}
+	
+	public int fetch() {
+		int fetch = 0;
+		Statement stm;
+		try {
+			stm = con.createStatement();
+			String sql = "select * from emp order by id";
+			ResultSet res = stm.executeQuery(sql);
+			
+			while(res.next()) {
+				System.out.println(res.getInt(1));
+				System.out.println(res.getString(2));
+				System.out.println(res.getInt(3));
+				System.out.println("================");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return fetch;
+	}
+	
+	public int close() {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 1;
 	}
 }
